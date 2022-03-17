@@ -50,3 +50,28 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/**Gets data from the submit story form, calls addStory, and appends new story
+ * on the page.
+ */
+
+$newStoryForm.on("submit", handleNewStory)
+
+function handleNewStory(evt){
+  evt.preventDefault();
+  let formData = retrieveStoryFormInputs();
+  let createdStory = storyList.addStory(currentUser, formData);
+  const response = await axios({
+    url: `${BASE_URL}/stories`,
+    method: "POST",
+  });
+}
+
+function retrieveStoryFormInputs(){
+  let title = $("#title").val();
+  let author = $("#author").val();
+  let url = $("#url").val();
+  let formData = {title, author, url};
+  console.log(formData);
+  return formData;
+}

@@ -43,7 +43,7 @@ function updateNavOnLogin() {
 
 function showSubmitForm(){
   console.log("hide form clicked");
-  $("#submit-story-form").removeClass("hidden");
+  $("#submit-story-form").toggleClass("hidden");
 }
 
 $navSubmit.on("click", showSubmitForm)
