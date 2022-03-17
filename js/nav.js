@@ -36,3 +36,14 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/**
+ * showSubmitForm causes submit nerw story form to appear on nav link click.
+ */
+
+function showSubmitForm(){
+  console.log("hide form clicked");
+  $("#submit-story-form").removeClass("hidden");
+}
+
+$navSubmit.on("click", showSubmitForm)
