@@ -73,8 +73,18 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
+  async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
+    let createdStory = new Story({
+      storyId: newStory.storyId,
+      title: newStory.title,
+      author: newStory.author,
+      url: newStory.url,
+      username: user.username,
+      createdAt: user.createdAt
+    });
+
+    return createdStory;
   }
 }
 
@@ -90,13 +100,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
