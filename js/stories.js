@@ -57,14 +57,12 @@ function putStoriesOnPage() {
 
 $newStoryForm.on("submit", handleNewStory)
 
+
 function handleNewStory(evt){
   evt.preventDefault();
   let formData = retrieveStoryFormInputs();
   let createdStory = storyList.addStory(currentUser, formData);
-  const response = await axios({
-    url: `${BASE_URL}/stories`,
-    method: "POST",
-  });
+
 }
 
 function retrieveStoryFormInputs(){
