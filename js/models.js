@@ -79,9 +79,9 @@ class StoryList {
     const options = {
       method: 'POST',
       url: `${BASE_URL}/stories`,
-      headers: { 'Content-Type' : 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       data: {
-        token : user.loginToken,
+        token: user.loginToken,
         story: {
           author: newStory.author,
           title: newStory.title,
@@ -90,7 +90,7 @@ class StoryList {
       }
     };
 
-    const response = await axios(options)
+    const response = await axios(options);
 
     const storyData = response.data.story;
     const createdStory = new Story(storyData);
@@ -216,4 +216,41 @@ class User {
       return null;
     }
   }
+
+  /**Adds favorite story to user's favorites */
+  async addFavStory(currentUser, storyId) {
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+        method: "POST",
+        data: {
+          token: currentUser.loginToken,
+        }
+      });
+
+      console.log(response.data.user.favorites[response.data.user.favorites.length-1]);
+
+      this.favorites.push(response);
+
+    } catch (err) {
+      console.error("Failed to add favorite story.", err);
+      return null;
+    }
+
+
+  }
+
+  async deleteFavStory(currentUser, storyId) {
+
+   const options = {
+      method: 'DELETE',
+      url: 'https://hack-or-snooze-v3.herokuapp.com/users/cw/favorites/e472e48d-ae9b-4a28-8a66-a978e0274d93',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN3IiwiaWF0IjoxNjQ3NTU0ODg0fQ.vjIgYE3JxP_o1LMMwbzu2ui_SbjEo4yoTweQRQ-wLYU'
+      }
+    };
+    const response = await axios(options);
+  }
+
 }
