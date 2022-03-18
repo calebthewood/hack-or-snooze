@@ -73,8 +73,6 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
-
 
     const options = {
       method: 'POST',
@@ -230,6 +228,14 @@ class User {
 
       console.log(response.data.user.favorites[response.data.user.favorites.length-1]);
 
+
+      //Need to use storyId to grab the correct story from storyList array and
+      //push the instance to currentUser.favorites.
+
+                                                                                //*maybe change our parametername*
+      //const favStoryInstance = storyList.stories.filter( story => story.storyId === storyId);
+      //this.favorites.push(favStoryInstance);
+
       this.favorites.push(response);
 
     } catch (err) {
@@ -242,6 +248,7 @@ class User {
 
   async deleteFavStory(currentUser, storyId) {
 
+    //replace strings with dynamic variables
    const options = {
       method: 'DELETE',
       url: 'https://hack-or-snooze-v3.herokuapp.com/users/cw/favorites/e472e48d-ae9b-4a28-8a66-a978e0274d93',
