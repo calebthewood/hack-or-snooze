@@ -25,6 +25,9 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      <span class="star">
+        <i class="fa-regular fa-star"></i>
+      </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -55,14 +58,14 @@ function putStoriesOnPage() {
  * on the page.
  */
 
-$newStoryForm.on("submit", handleNewStory)
+$newStoryForm.on("submit", handleNewStory);
 
 /**
  * Uses story form inputs and created story to generate the story markup
  * and prepend the story to the DOM.
  * Also clears the form inputs and prevents page refresh.
 */
-async function handleNewStory(evt){
+async function handleNewStory(evt) {
   evt.preventDefault();
   let formData = retrieveStoryFormInputs();
   let createdStory = await storyList.addStory(currentUser, formData);
@@ -76,11 +79,32 @@ async function handleNewStory(evt){
 /**
  * Retrieves the inputs from the story form and returns them as a formData variable.
 */
-function retrieveStoryFormInputs(){
+function retrieveStoryFormInputs() {
   let title = $("#title").val();
   let author = $("#author").val();
   let url = $("#url").val();
-  let formData = {title, author, url};
+  let formData = { title, author, url };
   console.log(formData);
   return formData;
 }
+
+$navFavorites.on("click", favoriteStory);
+
+function favoriteStory(evt) {
+  const favStory = $(evt.target).closest("li");
+  const favStoryId = favStory.storyId;
+  $starButton.removeClass(".fa-regular");
+  console.log(favStoryId);
+}
+
+
+//things we need: username, token, storyid
+//create nav bar link, create the star button, create event listener
+//on the star, which will be the function sending the favorited item
+//post request to the api to update the user favorites array.
+
+//the function will take in the currentuser, the event listener has
+//to pull the storyid when it's clicked (using event.target)
+
+//later, we'll have to do the same thing in reverse. possibly in the same function
+//but just delete.
