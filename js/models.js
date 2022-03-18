@@ -28,7 +28,8 @@ class Story {
   }
 
   static async getStoryById(storyId) {
-    return [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
+    let [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
+    return favStoryInstance;
     // let response = await axios.get(`${BASE_URL}/stories/${storyId}`);
     // console.log(response);
     // return response;
@@ -224,21 +225,13 @@ class User {
 
   /**Adds favorite story to user's favorites */
   //pass in Story Instance
-  async addFavStory(currentUser, storyId) {
-    const favsArray = currentUser.favorites;
+  async addFavStory(currentUser, Story) {
     //const [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
-    console.log("favsArray", favsArray, "favStoryInstance", favStoryInstance);
-
+    //console.log("favsArray", favsArray, "favStoryInstance", favStoryInstance);
+    console.log(Story);
     try {
-      for (let i = 0; i < favsArray.length; i++) {
-        if (currentUser.favorites[i].storyId === storyId){
-        throw new Error("Story already favorited!");
-        }
-      }
-      this.favorites.push(favStoryInstance);
-
       await axios({
-        url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+        url: `${BASE_URL}/users/${currentUser.username}/favorites/${Story.storyId}`,
         method: "POST",
         data: {
           token: currentUser.loginToken,
@@ -254,12 +247,12 @@ class User {
 
   }
 
-  async deleteFavStory(currentUser, storyId) {
+  async deleteFavStory(currentUser, Story) {
 
     //replace strings with dynamic variables
     const options = {
       method: 'DELETE',
-      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${Story.storyId}`,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token: currentUser.loginToken

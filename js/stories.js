@@ -97,43 +97,54 @@ $allStoriesList.on("click", ".star", favoriteStory);
 
 /**
  * Adds and removes favorite stories for the current user.
- *
+ *Conductor function.
  */
 async function favoriteStory(evt) {
-
+  const favsArray = currentUser.favorites;
   const $favStory = $(evt.target).closest("li");
   const favStoryId = $favStory.data("story-id");
-  console.log("Star Clicked!", favStoryId);
+  const favStoryInstance = await Story.getStoryById(favStoryId);
+  //console.log("Star Clicked!", favStoryId);
+
+  //this checks if the the clicked story is already in favorites array
+  for (let i = 0; i < favsArray.length; i++) {
+    if (currentUser.favorites[i].storyId === favStoryInstance.storyId) {
+      await currentUser.deleteFavStory(currentUser, favStoryInstance);
+      toggleStar(true, evt.target);
+      currentUser.favorites.splice(i, 1);
+      return;
+    }
+  }
+  //if we reach end of loop, add the clicked story to the favorite array
+  await currentUser.addFavStory(currentUser, favStoryInstance);
+  currentUser.favorites.push(favStoryInstance);
+  //toggle star true.
+  toggleStar(false, evt.target);
+
 
   //TODO: figure out toggle star solid/regular & add add/delete logic.
-
-  //copy logic for checking favs
-
-  //call getStoryById to get the instance
 
   //call addwith instance or delete story
 
 
-
   //if adding favorite
-  await currentUser.addFavStory(currentUser, favStoryId);
-  $(evt.target)
-    .closest(".fa-star")
-    .removeClass("fa-regular")
-    .addClass("fa-solid");
 
-  //if removing favorite
-  await currentUser.deleteFavStory(currentUser, favStoryId);
-  $(evt.target)
-    .closest(".fa-star")
-    .removeClass("fa-solid")
-    .addClass("fa-regular");
-
-  console.log(evt.target);
+  //console.log(evt.target);
 }
 
-
-$starButton;
+function toggleStar(isFav, evttarget) {
+  if (isFav) {
+    $(evttarget)
+      .closest(".fa-star")
+      .removeClass("fa-solid")
+      .addClass("fa-regular");
+  } else {
+    $(evttarget)
+      .closest(".fa-star")
+      .removeClass("fa-regular")
+      .addClass("fa-solid");
+  }
+}
 //things we need: username, token, storyid
 //create nav bar link, create the star button, create event listener
 //on the star, which will be the function sending the favorited item
