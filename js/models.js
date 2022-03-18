@@ -24,8 +24,7 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return this.url;
   }
 }
 
@@ -97,8 +96,7 @@ class StoryList {
     const createdStory = new Story(storyData);
 
     this.stories.unshift(createdStory);
-    putStoriesOnPage();
-    $newStoryForm.empty();
+
     return createdStory;
   }
 }
