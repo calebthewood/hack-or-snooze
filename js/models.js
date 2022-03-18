@@ -217,8 +217,19 @@ class User {
 
   /**Adds favorite story to user's favorites */
   async addFavStory(currentUser, storyId) {
+    const favsArray = currentUser.favorites;
+    const [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
+    console.log("favsArray", favsArray, "favStoryInstance", favStoryInstance);
+
     try {
-      const response = await axios({
+      for (let i = 0; i < favsArray.length; i++) {
+        if (currentUser.favorites[i].storyId === storyId){
+        throw new Error("Story already favorited!");
+        }
+      }
+      this.favorites.push(favStoryInstance);
+
+      await axios({
         url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
         method: "POST",
         data: {
@@ -226,30 +237,19 @@ class User {
         }
       });
 
-      console.log(response.data.user.favorites[response.data.user.favorites.length-1]);
-
-
-      //Need to use storyId to grab the correct story from storyList array and
-      //push the instance to currentUser.favorites.
-
-                                                                                //*maybe change our parametername*
-      //const favStoryInstance = storyList.stories.filter( story => story.storyId === storyId);
-      //this.favorites.push(favStoryInstance);
-
-      this.favorites.push(response);
+     // console.log(favsArray[favsArray.length - 1]);
 
     } catch (err) {
       console.error("Failed to add favorite story.", err);
       return null;
     }
 
-
   }
 
   async deleteFavStory(currentUser, storyId) {
 
     //replace strings with dynamic variables
-   const options = {
+    const options = {
       method: 'DELETE',
       url: 'https://hack-or-snooze-v3.herokuapp.com/users/cw/favorites/e472e48d-ae9b-4a28-8a66-a978e0274d93',
       headers: { 'Content-Type': 'application/json' },
