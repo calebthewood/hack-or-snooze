@@ -23,10 +23,15 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  const favStoryIds = currentUser.favorites.map(story => story.storyId);
+  const starClass = (favStoryIds.includes(story.storyId)) ? "fa-solid" : "fa-regular";
+
+  // console.log(favStoryIds, starClass);
+
   return $(`
       <li id="${story.storyId}" data-story-id="${story.storyId}">
       <span class="star">
-        <i class="fa-regular fa-star"></i>
+        <i class="${starClass} fa-star"></i>
       </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -102,18 +107,33 @@ async function favoriteStory(evt) {
 
   //TODO: figure out toggle star solid/regular & add add/delete logic.
 
+  //copy logic for checking favs
+
+  //call getStoryById to get the instance
+
+  //call addwith instance or delete story
+
+
+
+  //if adding favorite
+  await currentUser.addFavStory(currentUser, favStoryId);
   $(evt.target)
     .closest(".fa-star")
     .removeClass("fa-regular")
     .addClass("fa-solid");
 
-  await currentUser.addFavStory(currentUser, favStoryId);
+  //if removing favorite
+  await currentUser.deleteFavStory(currentUser, favStoryId);
+  $(evt.target)
+    .closest(".fa-star")
+    .removeClass("fa-solid")
+    .addClass("fa-regular");
 
   console.log(evt.target);
 }
 
 
-$starButton
+$starButton;
 //things we need: username, token, storyid
 //create nav bar link, create the star button, create event listener
 //on the star, which will be the function sending the favorited item

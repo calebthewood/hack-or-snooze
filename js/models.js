@@ -26,6 +26,13 @@ class Story {
   getHostName() {
     return this.url;
   }
+
+  static async getStoryById(storyId) {
+    return [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
+    // let response = await axios.get(`${BASE_URL}/stories/${storyId}`);
+    // console.log(response);
+    // return response;
+  }
 }
 
 
@@ -216,9 +223,10 @@ class User {
   }
 
   /**Adds favorite story to user's favorites */
+  //pass in Story Instance
   async addFavStory(currentUser, storyId) {
     const favsArray = currentUser.favorites;
-    const [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
+    //const [favStoryInstance] = storyList.stories.filter(story => story.storyId === storyId);
     console.log("favsArray", favsArray, "favStoryInstance", favStoryInstance);
 
     try {
@@ -251,13 +259,17 @@ class User {
     //replace strings with dynamic variables
     const options = {
       method: 'DELETE',
-      url: 'https://hack-or-snooze-v3.herokuapp.com/users/cw/favorites/e472e48d-ae9b-4a28-8a66-a978e0274d93',
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
       headers: { 'Content-Type': 'application/json' },
       data: {
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImN3IiwiaWF0IjoxNjQ3NTU0ODg0fQ.vjIgYE3JxP_o1LMMwbzu2ui_SbjEo4yoTweQRQ-wLYU'
+        token: currentUser.loginToken
       }
     };
-    const response = await axios(options);
+    try {
+      await axios(options);
+    } catch (err) {
+      console.error("Failed to delete story from favorites.");
+    }
   }
 
 }
