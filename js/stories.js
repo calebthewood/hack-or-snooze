@@ -58,7 +58,9 @@ function putStoriesOnPage() {
 $newStoryForm.on("submit", handleNewStory)
 
 /**
- *
+ * Uses story form inputs and created story to generate the story markup
+ * and prepend the story to the DOM.
+ * Also clears the form inputs and prevents page refresh.
 */
 async function handleNewStory(evt){
   evt.preventDefault();
@@ -72,7 +74,7 @@ async function handleNewStory(evt){
 }
 
 /**
- *
+ * Retrieves the inputs from the story form and returns them as a formData variable.
 */
 function retrieveStoryFormInputs(){
   let title = $("#title").val();
