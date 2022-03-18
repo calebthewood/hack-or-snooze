@@ -94,11 +94,12 @@ class StoryList {
     const response = await axios(options)
 
     const storyData = response.data.story;
-    const testStory = new Story(storyData);
+    const createdStory = new Story(storyData);
 
-    this.stories.unshift(testStory);
+    this.stories.unshift(createdStory);
     putStoriesOnPage();
-    return testStory;
+    $newStoryForm.empty();
+    return createdStory;
   }
 }
 

@@ -57,14 +57,23 @@ function putStoriesOnPage() {
 
 $newStoryForm.on("submit", handleNewStory)
 
-
-function handleNewStory(evt){
+/**
+ *
+*/
+async function handleNewStory(evt){
   evt.preventDefault();
   let formData = retrieveStoryFormInputs();
-  let createdStory = storyList.addStory(currentUser, formData);
+  let createdStory = await storyList.addStory(currentUser, formData);
+
+  const $story = generateStoryMarkup(createdStory);
+  $allStoriesList.prepend($story);
+  $newStoryForm.trigger("reset").hide();
 
 }
 
+/**
+ *
+*/
 function retrieveStoryFormInputs(){
   let title = $("#title").val();
   let author = $("#author").val();
