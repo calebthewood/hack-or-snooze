@@ -59,6 +59,19 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+function putFavsOnPage() {
+  console.debug("putStoriesOnPage");
+
+  $allStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $("#favorites-container").append($story);
+  }
+}
+
+
 /**Gets data from the submit story form, calls addStory, and appends new story
  * on the page.
  */
@@ -120,14 +133,6 @@ async function favoriteStory(evt) {
   currentUser.favorites.push(favStoryInstance);
   //toggle star true.
   toggleStar(false, evt.target);
-
-
-  //TODO: figure out toggle star solid/regular & add add/delete logic.
-
-  //call addwith instance or delete story
-
-
-  //if adding favorite
 
   //console.log(evt.target);
 }

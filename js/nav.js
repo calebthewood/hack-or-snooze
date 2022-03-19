@@ -47,3 +47,12 @@ function showSubmitForm(){
 }
 
 $navSubmit.on("click", showSubmitForm)
+
+$("#nav-favorites").on("click", showFavorites);
+
+function showFavorites() {
+  console.log("Favs Clicked")
+  $allStoriesList.hide();
+  putFavsOnPage();
+  $("#favorites-container").show();
+}
